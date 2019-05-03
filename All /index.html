@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/NorthHighlands_1.js"></script>
+        <script src="data/Caithness_2.js"></script>
+        <script src="data/Rossshire_3.js"></script>
+        <script src="data/Sutherland_4.js"></script>
+        <script src="data/DefenceUKGovernment_5.js"></script>
+        <script src="data/CharitableOrganisations_6.js"></script>
+        <script src="data/CommunityGroups_7.js"></script>
+        <script src="data/RuralEnvironmentalGovernance_8.js"></script>
+        <script src="data/HeritageAgenciesLargeSites_9.js"></script>
+        <script src="data/HeritageAgenciesSmallSites_10.js"></script>
+        <script src="data/ScottishGovernment_11.js"></script>
+        <script src="data/InfrastructureProviders_12.js"></script>
+        <script src="data/PublicServices_13.js"></script>
+        <script src="data/LocalGovernment_14.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[56.69815637839067,-7.062096316124706],[59.14365064019971,0.12431849525414343]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var layer_OpenStreetMap_0 = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            opacity: 1.0,
+            attribution: '',
+        });
+        layer_OpenStreetMap_0;
+        map.addLayer(layer_OpenStreetMap_0);
+        function pop_NorthHighlands_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Bound_date'] !== null ? Autolinker.link(String(feature.properties['Bound_date'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Alpha_sort'] !== null ? Autolinker.link(String(feature.properties['Alpha_sort'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['layer'] !== null ? Autolinker.link(String(feature.properties['layer'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['path'] !== null ? Autolinker.link(String(feature.properties['path'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_NorthHighlands_1_0() {
+            return {
+                pane: 'pane_NorthHighlands_1',
+                opacity: 1,
+                color: 'rgba(169,32,214,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_NorthHighlands_1');
+        map.getPane('pane_NorthHighlands_1').style.zIndex = 401;
+        map.getPane('pane_NorthHighlands_1').style['mix-blend-mode'] = 'normal';
+        var layer_NorthHighlands_1 = new L.geoJson(json_NorthHighlands_1, {
+            attribution: '',
+            pane: 'pane_NorthHighlands_1',
+            onEachFeature: pop_NorthHighlands_1,
+            style: style_NorthHighlands_1_0,
+        });
+        bounds_group.addLayer(layer_NorthHighlands_1);
+        map.addLayer(layer_NorthHighlands_1);
+        function pop_Caithness_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Bound_date'] !== null ? Autolinker.link(String(feature.properties['Bound_date'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Alpha_sort'] !== null ? Autolinker.link(String(feature.properties['Alpha_sort'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Caithness_2_0() {
+            return {
+                pane: 'pane_Caithness_2',
+                opacity: 1,
+                color: 'rgba(53,121,177,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_Caithness_2');
+        map.getPane('pane_Caithness_2').style.zIndex = 402;
+        map.getPane('pane_Caithness_2').style['mix-blend-mode'] = 'normal';
+        var layer_Caithness_2 = new L.geoJson(json_Caithness_2, {
+            attribution: '',
+            pane: 'pane_Caithness_2',
+            onEachFeature: pop_Caithness_2,
+            style: style_Caithness_2_0,
+        });
+        bounds_group.addLayer(layer_Caithness_2);
+        map.addLayer(layer_Caithness_2);
+        function pop_Rossshire_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Bound_date'] !== null ? Autolinker.link(String(feature.properties['Bound_date'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Alpha_sort'] !== null ? Autolinker.link(String(feature.properties['Alpha_sort'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Rossshire_3_0() {
+            return {
+                pane: 'pane_Rossshire_3',
+                opacity: 1,
+                color: 'rgba(77,175,74,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_Rossshire_3');
+        map.getPane('pane_Rossshire_3').style.zIndex = 403;
+        map.getPane('pane_Rossshire_3').style['mix-blend-mode'] = 'normal';
+        var layer_Rossshire_3 = new L.geoJson(json_Rossshire_3, {
+            attribution: '',
+            pane: 'pane_Rossshire_3',
+            onEachFeature: pop_Rossshire_3,
+            style: style_Rossshire_3_0,
+        });
+        bounds_group.addLayer(layer_Rossshire_3);
+        map.addLayer(layer_Rossshire_3);
+        function pop_Sutherland_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Bound_date'] !== null ? Autolinker.link(String(feature.properties['Bound_date'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Alpha_sort'] !== null ? Autolinker.link(String(feature.properties['Alpha_sort'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Sutherland_4_0() {
+            return {
+                pane: 'pane_Sutherland_4',
+                opacity: 1,
+                color: 'rgba(228,26,28,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_Sutherland_4');
+        map.getPane('pane_Sutherland_4').style.zIndex = 404;
+        map.getPane('pane_Sutherland_4').style['mix-blend-mode'] = 'normal';
+        var layer_Sutherland_4 = new L.geoJson(json_Sutherland_4, {
+            attribution: '',
+            pane: 'pane_Sutherland_4',
+            onEachFeature: pop_Sutherland_4,
+            style: style_Sutherland_4_0,
+        });
+        bounds_group.addLayer(layer_Sutherland_4);
+        map.addLayer(layer_Sutherland_4);
+        function pop_DefenceUKGovernment_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ref'] !== null ? Autolinker.link(String(feature.properties['Ref'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Org'] !== null ? Autolinker.link(String(feature.properties['Org'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Unit Function'] !== null ? Autolinker.link(String(feature.properties['Unit Function'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Size (m2)'] !== null ? Autolinker.link(String(feature.properties['Size (m2)'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Operation'] !== null ? Autolinker.link(String(feature.properties['Operation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['National Grid'] !== null ? Autolinker.link(String(feature.properties['National Grid'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_DefenceUKGovernment_5_0() {
+            return {
+                pane: 'pane_DefenceUKGovernment_5',
+                opacity: 1,
+                color: 'rgba(128,14,16,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(228,26,28,1.0)',
+            }
+        }
+        map.createPane('pane_DefenceUKGovernment_5');
+        map.getPane('pane_DefenceUKGovernment_5').style.zIndex = 405;
+        map.getPane('pane_DefenceUKGovernment_5').style['mix-blend-mode'] = 'normal';
+        var layer_DefenceUKGovernment_5 = new L.geoJson(json_DefenceUKGovernment_5, {
+            attribution: '',
+            pane: 'pane_DefenceUKGovernment_5',
+            onEachFeature: pop_DefenceUKGovernment_5,
+            style: style_DefenceUKGovernment_5_0,
+        });
+        bounds_group.addLayer(layer_DefenceUKGovernment_5);
+        map.addLayer(layer_DefenceUKGovernment_5);
+        function pop_CharitableOrganisations_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Reference'] !== null ? Autolinker.link(String(feature.properties['Reference'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Organisation'] !== null ? Autolinker.link(String(feature.properties['Organisation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Unit Function'] !== null ? Autolinker.link(String(feature.properties['Unit Function'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Size (m2)'] !== null ? Autolinker.link(String(feature.properties['Size (m2)'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Operation'] !== null ? Autolinker.link(String(feature.properties['Operation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['National Grid'] !== null ? Autolinker.link(String(feature.properties['National Grid'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CharitableOrganisations_6_0() {
+            return {
+                pane: 'pane_CharitableOrganisations_6',
+                opacity: 1,
+                color: 'rgba(38,89,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(55,126,184,1.0)',
+            }
+        }
+        map.createPane('pane_CharitableOrganisations_6');
+        map.getPane('pane_CharitableOrganisations_6').style.zIndex = 406;
+        map.getPane('pane_CharitableOrganisations_6').style['mix-blend-mode'] = 'normal';
+        var layer_CharitableOrganisations_6 = new L.geoJson(json_CharitableOrganisations_6, {
+            attribution: '',
+            pane: 'pane_CharitableOrganisations_6',
+            onEachFeature: pop_CharitableOrganisations_6,
+            style: style_CharitableOrganisations_6_0,
+        });
+        bounds_group.addLayer(layer_CharitableOrganisations_6);
+        map.addLayer(layer_CharitableOrganisations_6);
+        function pop_CommunityGroups_7(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ref'] !== null ? Autolinker.link(String(feature.properties['Ref'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Org'] !== null ? Autolinker.link(String(feature.properties['Org'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Unit Function'] !== null ? Autolinker.link(String(feature.properties['Unit Function'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Size (m2)'] !== null ? Autolinker.link(String(feature.properties['Size (m2)'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Operation'] !== null ? Autolinker.link(String(feature.properties['Operation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['National Grid'] !== null ? Autolinker.link(String(feature.properties['National Grid'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CommunityGroups_7_0() {
+            return {
+                pane: 'pane_CommunityGroups_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(152,125,183,1.0)',
+            }
+        }
+        map.createPane('pane_CommunityGroups_7');
+        map.getPane('pane_CommunityGroups_7').style.zIndex = 407;
+        map.getPane('pane_CommunityGroups_7').style['mix-blend-mode'] = 'normal';
+        var layer_CommunityGroups_7 = new L.geoJson(json_CommunityGroups_7, {
+            attribution: '',
+            pane: 'pane_CommunityGroups_7',
+            onEachFeature: pop_CommunityGroups_7,
+            style: style_CommunityGroups_7_0,
+        });
+        bounds_group.addLayer(layer_CommunityGroups_7);
+        map.addLayer(layer_CommunityGroups_7);
+        function pop_RuralEnvironmentalGovernance_8(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ref'] !== null ? Autolinker.link(String(feature.properties['Ref'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Org'] !== null ? Autolinker.link(String(feature.properties['Org'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Unit Function'] !== null ? Autolinker.link(String(feature.properties['Unit Function'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Size (m2)'] !== null ? Autolinker.link(String(feature.properties['Size (m2)'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Operation'] !== null ? Autolinker.link(String(feature.properties['Operation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['National Grid'] !== null ? Autolinker.link(String(feature.properties['National Grid'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_RuralEnvironmentalGovernance_8_0() {
+            return {
+                pane: 'pane_RuralEnvironmentalGovernance_8',
+                opacity: 1,
+                color: 'rgba(56,128,54,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(77,175,74,1.0)',
+            }
+        }
+        map.createPane('pane_RuralEnvironmentalGovernance_8');
+        map.getPane('pane_RuralEnvironmentalGovernance_8').style.zIndex = 408;
+        map.getPane('pane_RuralEnvironmentalGovernance_8').style['mix-blend-mode'] = 'normal';
+        var layer_RuralEnvironmentalGovernance_8 = new L.geoJson(json_RuralEnvironmentalGovernance_8, {
+            attribution: '',
+            pane: 'pane_RuralEnvironmentalGovernance_8',
+            onEachFeature: pop_RuralEnvironmentalGovernance_8,
+            style: style_RuralEnvironmentalGovernance_8_0,
+        });
+        bounds_group.addLayer(layer_RuralEnvironmentalGovernance_8);
+        map.addLayer(layer_RuralEnvironmentalGovernance_8);
+        function pop_HeritageAgenciesLargeSites_9(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Reference'] !== null ? Autolinker.link(String(feature.properties['Reference'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Organnisation'] !== null ? Autolinker.link(String(feature.properties['Organnisation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Unit Function'] !== null ? Autolinker.link(String(feature.properties['Unit Function'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Size (m2)'] !== null ? Autolinker.link(String(feature.properties['Size (m2)'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Operation'] !== null ? Autolinker.link(String(feature.properties['Operation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['National Grid'] !== null ? Autolinker.link(String(feature.properties['National Grid'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_HeritageAgenciesLargeSites_9_0() {
+            return {
+                pane: 'pane_HeritageAgenciesLargeSites_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(232,113,141,1.0)',
+            }
+        }
+        map.createPane('pane_HeritageAgenciesLargeSites_9');
+        map.getPane('pane_HeritageAgenciesLargeSites_9').style.zIndex = 409;
+        map.getPane('pane_HeritageAgenciesLargeSites_9').style['mix-blend-mode'] = 'normal';
+        var layer_HeritageAgenciesLargeSites_9 = new L.geoJson(json_HeritageAgenciesLargeSites_9, {
+            attribution: '',
+            pane: 'pane_HeritageAgenciesLargeSites_9',
+            onEachFeature: pop_HeritageAgenciesLargeSites_9,
+            style: style_HeritageAgenciesLargeSites_9_0,
+        });
+        bounds_group.addLayer(layer_HeritageAgenciesLargeSites_9);
+        map.addLayer(layer_HeritageAgenciesLargeSites_9);
+        function pop_HeritageAgenciesSmallSites_10(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Reference'] !== null ? Autolinker.link(String(feature.properties['Reference'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Organisation'] !== null ? Autolinker.link(String(feature.properties['Organisation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Unit Function'] !== null ? Autolinker.link(String(feature.properties['Unit Function'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Size'] !== null ? Autolinker.link(String(feature.properties['Size'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Operation'] !== null ? Autolinker.link(String(feature.properties['Operation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Grid Reference'] !== null ? Autolinker.link(String(feature.properties['Grid Reference'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Easting'] !== null ? Autolinker.link(String(feature.properties['Easting'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Northing'] !== null ? Autolinker.link(String(feature.properties['Northing'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_HeritageAgenciesSmallSites_10_0() {
+            return {
+                pane: 'pane_HeritageAgenciesSmallSites_10',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(232,113,141,1.0)',
+            }
+        }
+        map.createPane('pane_HeritageAgenciesSmallSites_10');
+        map.getPane('pane_HeritageAgenciesSmallSites_10').style.zIndex = 410;
+        map.getPane('pane_HeritageAgenciesSmallSites_10').style['mix-blend-mode'] = 'normal';
+        var layer_HeritageAgenciesSmallSites_10 = new L.geoJson(json_HeritageAgenciesSmallSites_10, {
+            attribution: '',
+            pane: 'pane_HeritageAgenciesSmallSites_10',
+            onEachFeature: pop_HeritageAgenciesSmallSites_10,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_HeritageAgenciesSmallSites_10_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_HeritageAgenciesSmallSites_10);
+        map.addLayer(layer_HeritageAgenciesSmallSites_10);
+        function pop_ScottishGovernment_11(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Reference'] !== null ? Autolinker.link(String(feature.properties['Reference'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Organisation'] !== null ? Autolinker.link(String(feature.properties['Organisation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Unit Function'] !== null ? Autolinker.link(String(feature.properties['Unit Function'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Size'] !== null ? Autolinker.link(String(feature.properties['Size'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Operation'] !== null ? Autolinker.link(String(feature.properties['Operation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['National Grid'] !== null ? Autolinker.link(String(feature.properties['National Grid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Easting'] !== null ? Autolinker.link(String(feature.properties['Easting'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Northing'] !== null ? Autolinker.link(String(feature.properties['Northing'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ScottishGovernment_11_0() {
+            return {
+                pane: 'pane_ScottishGovernment_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(128,17,25,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,30,42,1.0)',
+            }
+        }
+        map.createPane('pane_ScottishGovernment_11');
+        map.getPane('pane_ScottishGovernment_11').style.zIndex = 411;
+        map.getPane('pane_ScottishGovernment_11').style['mix-blend-mode'] = 'normal';
+        var layer_ScottishGovernment_11 = new L.geoJson(json_ScottishGovernment_11, {
+            attribution: '',
+            pane: 'pane_ScottishGovernment_11',
+            onEachFeature: pop_ScottishGovernment_11,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_ScottishGovernment_11_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_ScottishGovernment_11);
+        map.addLayer(layer_ScottishGovernment_11);
+        function pop_InfrastructureProviders_12(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Reference'] !== null ? Autolinker.link(String(feature.properties['Reference'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Organisation'] !== null ? Autolinker.link(String(feature.properties['Organisation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Unit Function'] !== null ? Autolinker.link(String(feature.properties['Unit Function'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Size'] !== null ? Autolinker.link(String(feature.properties['Size'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Operation'] !== null ? Autolinker.link(String(feature.properties['Operation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['National Grid'] !== null ? Autolinker.link(String(feature.properties['National Grid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Easting'] !== null ? Autolinker.link(String(feature.properties['Easting'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Northing'] !== null ? Autolinker.link(String(feature.properties['Northing'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_InfrastructureProviders_12_0() {
+            return {
+                pane: 'pane_InfrastructureProviders_12',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(133,182,111,1.0)',
+            }
+        }
+        map.createPane('pane_InfrastructureProviders_12');
+        map.getPane('pane_InfrastructureProviders_12').style.zIndex = 412;
+        map.getPane('pane_InfrastructureProviders_12').style['mix-blend-mode'] = 'normal';
+        var layer_InfrastructureProviders_12 = new L.geoJson(json_InfrastructureProviders_12, {
+            attribution: '',
+            pane: 'pane_InfrastructureProviders_12',
+            onEachFeature: pop_InfrastructureProviders_12,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_InfrastructureProviders_12_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_InfrastructureProviders_12);
+        map.addLayer(layer_InfrastructureProviders_12);
+        function pop_PublicServices_13(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Reference'] !== null ? Autolinker.link(String(feature.properties['Reference'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Organisation'] !== null ? Autolinker.link(String(feature.properties['Organisation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Unit Function'] !== null ? Autolinker.link(String(feature.properties['Unit Function'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Size (m2)'] !== null ? Autolinker.link(String(feature.properties['Size (m2)'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Operation'] !== null ? Autolinker.link(String(feature.properties['Operation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['National Grid'] !== null ? Autolinker.link(String(feature.properties['National Grid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Easting'] !== null ? Autolinker.link(String(feature.properties['Easting'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Northing'] !== null ? Autolinker.link(String(feature.properties['Northing'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PublicServices_13_0() {
+            return {
+                pane: 'pane_PublicServices_13',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(190,178,151,1.0)',
+            }
+        }
+        map.createPane('pane_PublicServices_13');
+        map.getPane('pane_PublicServices_13').style.zIndex = 413;
+        map.getPane('pane_PublicServices_13').style['mix-blend-mode'] = 'normal';
+        var layer_PublicServices_13 = new L.geoJson(json_PublicServices_13, {
+            attribution: '',
+            pane: 'pane_PublicServices_13',
+            onEachFeature: pop_PublicServices_13,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_PublicServices_13_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_PublicServices_13);
+        map.addLayer(layer_PublicServices_13);
+        function pop_LocalGovernment_14(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Reference'] !== null ? Autolinker.link(String(feature.properties['Reference'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Organisation'] !== null ? Autolinker.link(String(feature.properties['Organisation'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Function'] !== null ? Autolinker.link(String(feature.properties['Function'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Unit Function'] !== null ? Autolinker.link(String(feature.properties['Unit Function'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Size (m2)'] !== null ? Autolinker.link(String(feature.properties['Size (m2)'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['National Grid'] !== null ? Autolinker.link(String(feature.properties['National Grid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Easting'] !== null ? Autolinker.link(String(feature.properties['Easting'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Northing'] !== null ? Autolinker.link(String(feature.properties['Northing'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LocalGovernment_14_0() {
+            return {
+                pane: 'pane_LocalGovernment_14',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(190,207,80,1.0)',
+            }
+        }
+        map.createPane('pane_LocalGovernment_14');
+        map.getPane('pane_LocalGovernment_14').style.zIndex = 414;
+        map.getPane('pane_LocalGovernment_14').style['mix-blend-mode'] = 'normal';
+        var layer_LocalGovernment_14 = new L.geoJson(json_LocalGovernment_14, {
+            attribution: '',
+            pane: 'pane_LocalGovernment_14',
+            onEachFeature: pop_LocalGovernment_14,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_LocalGovernment_14_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_LocalGovernment_14);
+        map.addLayer(layer_LocalGovernment_14);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/LocalGovernment_14.png" /> Local Government': layer_LocalGovernment_14,'<img src="legend/PublicServices_13.png" /> Public Services': layer_PublicServices_13,'<img src="legend/InfrastructureProviders_12.png" /> Infrastructure Providers': layer_InfrastructureProviders_12,'<img src="legend/ScottishGovernment_11.png" /> Scottish Government': layer_ScottishGovernment_11,'<img src="legend/HeritageAgenciesSmallSites_10.png" /> Heritage Agencies (Small Sites)': layer_HeritageAgenciesSmallSites_10,'<img src="legend/HeritageAgenciesLargeSites_9.png" /> Heritage Agencies (Large Sites)': layer_HeritageAgenciesLargeSites_9,'<img src="legend/RuralEnvironmentalGovernance_8.png" /> Rural/Environmental Governance': layer_RuralEnvironmentalGovernance_8,'<img src="legend/CommunityGroups_7.png" /> Community Groups': layer_CommunityGroups_7,'<img src="legend/CharitableOrganisations_6.png" /> Charitable Organisations': layer_CharitableOrganisations_6,'<img src="legend/DefenceUKGovernment_5.png" /> Defence (UK Government)': layer_DefenceUKGovernment_5,'<img src="legend/Sutherland_4.png" /> Sutherland': layer_Sutherland_4,'<img src="legend/Rossshire_3.png" /> Ross-shire': layer_Rossshire_3,'<img src="legend/Caithness_2.png" /> Caithness': layer_Caithness_2,'<img src="legend/NorthHighlands_1.png" /> North Highlands': layer_NorthHighlands_1,"OpenStreetMap": layer_OpenStreetMap_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
